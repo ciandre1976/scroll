@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import SelectElement from "./Comps/SelectElement";
 import "./App.css";
 
 function App() {
@@ -8,15 +9,17 @@ function App() {
     setState(e.target.value);
   };
 
+  useEffect(() => {
+    console.log("refetch...");
+    return () => {};
+  }, [state]);
+
   console.log(state);
 
   return (
     <div className="App">
-      <label htmlFor="select">State : </label>
-      <select name="select" onChange={handleStateChange}>
-        <option value="Way">Wayoming</option>
-        <option value="Ten">Tenesi</option>
-      </select>
+      <SelectElement handleStateChange={handleStateChange} />
+      <p>{state}</p>
     </div>
   );
 }
