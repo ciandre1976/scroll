@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import SelectElement from "./Comps/SelectElement";
 import axios from "axios";
 import "./App.css";
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
+import Person from "./Comps/Person";
 
 // Create a client
 
 function App() {
-  const [state, setState] = useState("");
+  let [state, setState] = useState("");
   let url_rep = `http://localhost:3000/representatives/${state}`;
   let url_sen = `http://localhost:3000/senators/${state}`;
 
@@ -16,31 +17,38 @@ function App() {
     return response;
   };
 
-  console.log(url_rep);
-  console.log(url_sen);
+  useEffect(() => {
+    const onScroll = (e) => {
+      let fetching = false;
+      const { scrollHeight, scrollTop, clientHeight } =
+        e.target.scrollingElement;
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+        fetching = true;
+        console.log("hi");
+        fetching = false;
+      }
+    };
+    document.addEventListener("scroll", onScroll);
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+    };
+  });
+
+  let { data } = useQuery("representatives", fetchRepresentatives);
+  console.log(data);
   let res;
 
-  const { data } = useQuery("representatives", fetchRepresentatives);
-  console.log(data);
   data?.isLoading ? <p>Loading...</p> : (res = data?.data?.results);
-
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
-  console.log("data je", res);
 
   return (
     <div className="App">
       <SelectElement handleStateChange={handleStateChange} />
       {res?.map((person) => (
         <article>
-          <p>{person?.district}</p>
-          <p>{person?.name}</p>
-          <p>{person?.link}</p>
-          <p>{person?.office}</p>
-          <p>{person?.party}</p>
-          <p>{person?.phone}</p>
-          <p>{person?.state}</p>
+          <Person person={person} />
         </article>
       ))}
     </div>
