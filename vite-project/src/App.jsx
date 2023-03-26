@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import Person from "./Comps/Person";
 import { fetchData } from "./Comps/fetchData";
 
-// Create a client
+
 
 function App() {
   let [state, setState] = useState("");
@@ -17,6 +17,13 @@ function App() {
     const res = await fetchData(url_rep);
     return res;
   });
+
+  const SenatorResults = useQuery(["senators"], async () => {
+    const res = await fetchData(url_sen);
+    return res;
+  });
+
+  console.log("senators", SenatorResults?.data?.data?.results);
 
   useEffect(() => {
     try {
@@ -34,9 +41,17 @@ function App() {
   return (
     <div className="App">
       <SelectElement handleStateChange={handleStateChange} />
-      {dataRep.map((person) => (
-        <Person person={person} />
-      ))}
+      <div style={{ display: "Flex" }}>
+        <div style={{ margin: "20px" }}>
+          <h3>Representatives</h3>
+          {dataRep.map((person) => (
+            <Person person={person} />
+          ))}
+        </div>
+        <div style={{ margin: "20px" }}>
+          <h3>Senators</h3>
+        </div>
+      </div>
     </div>
   );
 }
