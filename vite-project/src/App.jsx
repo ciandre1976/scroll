@@ -4,6 +4,7 @@ import axios from "axios";
 import "./App.css";
 import { useQuery } from "react-query";
 import Person from "./Comps/Person";
+import { fetchData } from "./Comps/fetchData";
 
 // Create a client
 
@@ -13,12 +14,10 @@ function App() {
   let url_rep = `http://localhost:3000/representatives/${state}`;
   let url_sen = `http://localhost:3000/senators/${state}`;
 
-  const fetchRepresentatives = async () => {
-    const response = await axios.get(url_rep);
-    return response;
-  };
+  const res = fetchData(url_rep);
 
- 
+  console.log("res", res);
+
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
@@ -27,13 +26,7 @@ function App() {
   return (
     <div className="App">
       <SelectElement handleStateChange={handleStateChange} />
-      {res?.map((person) => (
-        <article>
-          <Person person={person} />
-        </article>
-      ))}
     </div>
   );
 }
-
 export default App;
