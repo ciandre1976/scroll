@@ -17,7 +17,6 @@ function App() {
     return response;
   };
 
-
   useEffect(() => {
     const onScroll = (e) => {
       let fetching = false;
