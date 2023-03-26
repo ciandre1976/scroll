@@ -13,16 +13,23 @@ function App() {
   let url_rep = `http://localhost:3000/representatives/${state}`;
   let url_sen = `http://localhost:3000/senators/${state}`;
 
-  const getData=async (){
-  const res = await fetchData(url_rep);
-  return res;
-  }
+  const { data, isLoading } = useQuery(["representatives"], async () => {
+    const res = await fetchData(url_rep);
+    return res;
+  });
 
-  console.log("res", getData);
+  useEffect(() => {
+    try {
+      setDataRep([...data?.data?.results]);
+    } catch {
+      console.log("cant d");
+    }
+  }, [state]);
 
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
+  console.log(dataRep);
 
   return (
     <div className="App">
