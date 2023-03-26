@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import SelectElement from "./Comps/SelectElement";
-import axios from "axios";
 import "./App.css";
 import { useQuery } from "react-query";
 import Person from "./Comps/Person";
