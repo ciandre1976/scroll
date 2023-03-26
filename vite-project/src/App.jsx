@@ -50,8 +50,8 @@ function App() {
 
       const newItems = dataRep;
       const newItems1 = dataSen;
-      setItems((prevItems) => [...newItems]);
-      setItems1((prevItems) => [...newItems1]);
+      setItems([...newItems]);
+      setItems1([...newItems1]);
       setLoading(false);
     };
     const handleScroll = () => {
