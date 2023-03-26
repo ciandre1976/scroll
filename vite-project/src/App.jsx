@@ -22,9 +22,9 @@ function App() {
     try {
       setDataRep([...data?.data?.results]);
     } catch {
-      console.log("cant d");
+      console.log("cant do");
     }
-  }, [state]);
+  }, [state, data]);
 
   const handleStateChange = (e) => {
     setState(e.target.value);
@@ -34,6 +34,9 @@ function App() {
   return (
     <div className="App">
       <SelectElement handleStateChange={handleStateChange} />
+      {dataRep.map((person) => (
+        <Person person={person} />
+      ))}
     </div>
   );
 }

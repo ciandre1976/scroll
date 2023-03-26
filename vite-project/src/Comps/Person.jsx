@@ -3,7 +3,9 @@ import React from "react";
 const Person = ({ person }) => {
   return (
     <div key={person.name}>
-      <p> {person?.name}</p>
+      <p>
+        <b> {person?.name}</b>
+      </p>
       <p> {person?.link}</p>
       <p> {person?.district}</p>
       <p> {person?.office}</p>
