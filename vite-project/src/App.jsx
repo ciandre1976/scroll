@@ -52,6 +52,9 @@ function App() {
         </div>
         <div style={{ margin: "20px" }}>
           <h3>Senators</h3>
+          {dataSen.map((person) => (
+            <Person person={person} />
+          ))}
         </div>
       </div>
     </div>
