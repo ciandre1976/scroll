@@ -13,14 +13,16 @@ function App() {
   let url_rep = `http://localhost:3000/representatives/${state}`;
   let url_sen = `http://localhost:3000/senators/${state}`;
 
-  const res = fetchData(url_rep);
+  const getData=async (){
+  const res = await fetchData(url_rep);
+  return res;
+  }
 
-  console.log("res", res);
+  console.log("res", getData);
 
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
-  console.log(state);
 
   return (
     <div className="App">
