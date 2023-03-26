@@ -3,7 +3,7 @@ import React from "react";
 const SelectElement = ({ handleStateChange }) => {
   return (
     <div>
-      <label htmlFor="select">state</label>
+      <label htmlFor="select">Change state :</label>
       <br />
       <select name="select" onChange={handleStateChange}>
         <option value="WY">Wyoming</option>

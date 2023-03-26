@@ -1,7 +1,6 @@
-
 const Person = ({ person }) => {
   return (
-    <div key={person.name}>
+    <div key={person.name} style={{ backgroundColor: "#e2e2e2" }}>
       <p>
         <b> {person?.name}</b>
       </p>
