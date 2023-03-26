@@ -5,11 +5,11 @@ import { useQuery } from "react-query";
 import Person from "./Comps/Person";
 import { fetchData } from "./Comps/fetchData";
 
-
-
 function App() {
   let [state, setState] = useState("");
   let [dataRep, setDataRep] = useState([]);
+  let [dataSen, setDataSen] = useState([]);
+
   let url_rep = `http://localhost:3000/representatives/${state}`;
   let url_sen = `http://localhost:3000/senators/${state}`;
 
@@ -28,6 +28,7 @@ function App() {
   useEffect(() => {
     try {
       setDataRep([...data?.data?.results]);
+      setDataSen([...SenatorResults?.data?.data?.results]);
     } catch {
       console.log("cant do");
     }
@@ -36,7 +37,8 @@ function App() {
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
-  console.log(dataRep);
+
+  console.log(dataSen);
 
   return (
     <div className="App">
