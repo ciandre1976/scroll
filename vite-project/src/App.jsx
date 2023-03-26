@@ -9,6 +9,9 @@ function App() {
   let [state, setState] = useState("");
   let [dataRep, setDataRep] = useState([]);
   let [dataSen, setDataSen] = useState([]);
+  const [items, setItems] = useState([]);
+  const [items1, setItems1] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   let url_rep = `http://localhost:3000/representatives/${state}`;
   let url_sen = `http://localhost:3000/senators/${state}`;
@@ -23,22 +26,52 @@ function App() {
     return res;
   });
 
-  console.log("senators", SenatorResults?.data?.data?.results);
-
-  useEffect(() => {
-    try {
-      setDataRep([...data?.data?.results]);
-      setDataSen([...SenatorResults?.data?.data?.results]);
-    } catch {
-      console.log("cant do");
-    }
-  }, [state, data]);
-
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
 
-  console.log(dataSen);
+  useEffect(() => {
+    {
+      try {
+        setDataSen([...SenatorResults?.data?.data?.results]);
+        setDataRep([...data?.data?.results]);
+      } catch {
+        console.log("cant do");
+      }
+    }
+    return function cleanup() {
+      if (dataRep !== null) return;
+    };
+  }, [state, dataRep]);
+
+  useEffect(() => {
+    const loadMore = async () => {
+      if (loading) return;
+
+      const newItems = dataRep;
+      const newItems1 = dataSen;
+      console.log(newItems);
+      setItems((prevItems) => [...prevItems, ...newItems]);
+      setItems1((prevItems) => [...prevItems, ...newItems1]);
+      setLoading(false);
+    };
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.offsetHeight;
+
+      if (scrollTop + windowHeight > documentHeight - 100 && !loading) {
+        setLoading(true);
+        loadMore();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [items, loading]);
 
   return (
     <div className="App">
@@ -49,12 +82,19 @@ function App() {
           {dataRep.map((person) => (
             <Person person={person} />
           ))}
+          {items.map((person) => (
+            <Person person={person} />
+          ))}
         </div>
         <div style={{ margin: "20px" }}>
           <h3>Senators</h3>
           {dataSen.map((person) => (
             <Person person={person} />
           ))}
+          {items1.map((person) => (
+            <Person person={person} />
+          ))}
+          {loading && <p>Loading more items...</p>}
         </div>
       </div>
     </div>
