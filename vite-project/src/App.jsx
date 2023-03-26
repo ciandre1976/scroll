@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SelectElement from "./Comps/SelectElement";
 import axios from "axios";
 import "./App.css";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import Person from "./Comps/Person";
 
 // Create a client
@@ -16,6 +16,7 @@ function App() {
     const response = await axios.get(url_rep);
     return response;
   };
+
 
   useEffect(() => {
     const onScroll = (e) => {
@@ -32,9 +33,9 @@ function App() {
     return () => {
       document.removeEventListener("scroll", onScroll);
     };
-  });
+  }, [state]);
 
-  let { data } = useQuery("representatives", fetchRepresentatives);
+  let { data, isLoading } = useQuery("representatives", fetchRepresentatives);
   console.log(data);
   let res;
 
@@ -42,7 +43,7 @@ function App() {
   const handleStateChange = (e) => {
     setState(e.target.value);
   };
-
+  console.log(state);
   return (
     <div className="App">
       <SelectElement handleStateChange={handleStateChange} />
