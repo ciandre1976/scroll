@@ -42,7 +42,7 @@ function App() {
     return function cleanup() {
       if (dataRep !== null) return;
     };
-  }, [state, dataRep]);
+  }, [state]);
 
   useEffect(() => {
     const loadMore = async () => {
