@@ -6,6 +6,7 @@ const SelectElement = ({ handleStateChange }) => {
       <label htmlFor="select">Change state :</label>
       <br />
       <select name="select" onChange={handleStateChange}>
+        <option value="#">-</option>
         <option value="WY">Wyoming</option>
         <option value="UT">Utah</option>
         <option value="MO">Missouri</option>
